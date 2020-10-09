@@ -9,6 +9,8 @@ package com.meritamerica.assignment2;
  */
 public class CheckingAccount extends BankAccount {
 	
+	private double interestRate = 0.0001;
+	
 	public CheckingAccount() {
 		super();
 	}
@@ -16,6 +18,9 @@ public class CheckingAccount extends BankAccount {
 	public CheckingAccount(double openingBalance, double interestRate) {
 		super(openingBalance, interestRate);
 	}
-	private double interestRate = 0.0001;
+	
+	public CheckingAccount(double openingBalance) {
+		super(openingBalance);
+	}
 	
 }

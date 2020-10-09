@@ -6,11 +6,13 @@ import java.util.Random;
 public class MeritBank {
 
 	private static AccountHolder[] accountHolders;
+	private static CDOffering[] cdOfferings;
 
 	
 	public static void addAccountHolder(AccountHolder accountHolder) {
 		
 	}
+	
 	
 	public static AccountHolder[] getAccountHolder() {
 		AccountHolder[] holder = new AccountHolder[0];
@@ -18,10 +20,10 @@ public class MeritBank {
 		return holder;
 	}
 	
-	public static CDOffering[] getCDOffering() {
-		CDOffering[] offering = new CDOffering[0];
+	public static CDOffering[] getCDOfferings() {
 		
-		return offering;
+		
+		return cdOfferings;
 	}
 	
 	public static CDOffering getBestCDOffering(double depositAmount) {
@@ -37,11 +39,18 @@ public class MeritBank {
 	}
 	
 	public static void clearCDOfferings() {
-		
+		for(int i = 0; i < cdOfferings.length; i++) {
+			cdOfferings[i] = new CDOffering();
+		}
 	}
 	
 	public static void setCDOfferings(CDOffering[] offerings) {
-		
+		cdOfferings = new CDOffering[5];
+		cdOfferings[0] = new CDOffering(1, 1.8 / 100);
+		cdOfferings[1] = new CDOffering(2, 1.9 / 100);
+		cdOfferings[2] = new CDOffering(3, 2.0 / 100);
+		cdOfferings[3] = new CDOffering(5, 2.5 / 100);
+		cdOfferings[4] = new CDOffering(10, 2.2 / 100);
 	}
 	
 	static long getNextAccountNumber() {

@@ -7,9 +7,15 @@ public class BankAccount {
 	private double interestRate;
 	private double balance;
 	private long accountNumber;
+	private static long accountNum = 1000;
 	
 	public BankAccount() {
-		
+		accountNum = accountNum + 1;
+		this.accountNumber = accountNum;
+	}
+	
+	public BankAccount(double openingBalance) {
+		this.balance = openingBalance;
 	}
 	
 	public BankAccount(double interestRate, double balance) {

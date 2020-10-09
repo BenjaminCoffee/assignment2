@@ -12,6 +12,7 @@ public class CDOffering {
 		this.term = term;
 		this.interestRate = interestRate;
 	}
+	
 
 	public int getTerm() {
 		return term;
