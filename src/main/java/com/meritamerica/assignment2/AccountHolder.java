@@ -1,24 +1,24 @@
 package com.meritamerica.assignment2;
 
-
 /*
  * This is the definition of the AccountHolder class.
  * It is meant to simulate an account holder of a banking application.
  */
 public class AccountHolder {
-	
+
 	private String firstName;
 	private String middleName;
 	private String lastName;
 	private String ssn;
-	
-	// the account holder class needs to be able to have unlimited bank account objects
+
+	// the account holder class needs to be able to have unlimited bank account
+	// objects
 	// for now, an account holder can only have 2 below.
-	// maybe we can implement an ArrayList  or an array here.
+	// maybe we can implement an ArrayList or an array here.
 	private CheckingAccount[] checkingAccounts;
 	private SavingsAccount[] savingsAccounts;
-	private CDAccount[] cdAccount;
-	
+	private CDAccount[] cdAccounts;
+
 	/*
 	 * no arg constructor
 	 */
@@ -27,10 +27,10 @@ public class AccountHolder {
 		this.middleName = "";
 		this.lastName = "";
 		this.ssn = "";
-		
+
 		this.checkingAccounts = new CheckingAccount[0];
 		this.savingsAccounts = new SavingsAccount[0];
-		this.cdAccount = new CDAccount[0];
+		this.cdAccounts = new CDAccount[0];
 	}
 
 	/*
@@ -46,85 +46,136 @@ public class AccountHolder {
 	
 	public SavingsAccount addSavingsAccount(double openingBalance) {
 		SavingsAccount newAccount = new SavingsAccount(openingBalance);
-		
-		SavingsAccount[] currentArray = getSavingsAccount();
-		
-		SavingsAccount[] newSavingsAccountArray = new SavingsAccount[currentArray.length + 1];
-		
-		for(int i = 0; i < currentArray.length; i ++) {
-			newSavingsAccountArray[i] = currentArray[i];
+		SavingsAccount[] currentArray = getSavingsAccounts();
+
+		if (currentArray == null) {
+			// currentArray = new SavingsAccount[0];
+			// newSavingsAccountArray[0] = newAccount;
+			SavingsAccount[] newSavingsAccountArray = new SavingsAccount[1];
+			newSavingsAccountArray[0] = newAccount;
+			this.savingsAccounts = newSavingsAccountArray;
+		} else {
+			SavingsAccount[] newSavingsAccountArray = new SavingsAccount[currentArray.length + 1];
+
+			for (int i = 0; i < currentArray.length; i++) {
+				newSavingsAccountArray[i] = currentArray[i];
+			}
+			newSavingsAccountArray[newSavingsAccountArray.length - 1] = newAccount;
+			this.savingsAccounts = newSavingsAccountArray;
 		}
-		
-		newSavingsAccountArray[newSavingsAccountArray.hashCode()] = newAccount;
-		
-		this.savingsAccounts = newSavingsAccountArray;
-		
-		
+
 		return newAccount;
 	}
-	
+
+	public SavingsAccount addSavingsAccount(SavingsAccount savingsObj) {
+		SavingsAccount[] currentArray = getSavingsAccounts();
+		double sum = getSavingsBalance() + getCheckingBalance();
+		if (currentArray == null) {
+			if(sum < 250000) {
+				SavingsAccount[] newSavingsAccountArray = new SavingsAccount[1];
+				newSavingsAccountArray[0] = savingsObj;
+				this.savingsAccounts = newSavingsAccountArray;
+			}
+		} 
+		else if ((sum + savingsObj.getBalance()) < 250000) {
+			SavingsAccount[] newSavingsAccountArray = new SavingsAccount[currentArray.length + 1];
+
+			for (int i = 0; i < currentArray.length; i++) {
+				newSavingsAccountArray[i] = currentArray[i];
+			}
+			newSavingsAccountArray[newSavingsAccountArray.length - 1] = savingsObj;
+			this.savingsAccounts = newSavingsAccountArray;
+		}
+
+		return savingsObj;
+	}
 	/*
-	 * When a new CheckingAccount object is added to the checkingAccounts array
-	 * a new array will be created.
-	 * The old contents of the checkingAccounts array must be copied in to a 
-	 * new array along with the new CheckingAccount object.
+	 * When a new CheckingAccount object is added to the checkingAccounts array a
+	 * new array will be created. The old contents of the checkingAccounts array
+	 * must be copied in to a new array along with the new CheckingAccount object.
 	 * The new array is then assigned back to the checkingAccounts array.
 	 */
 	public CheckingAccount addCheckingAccount(double openingBalance) {
-		
+
 		CheckingAccount newAccount = new CheckingAccount(openingBalance);
-		
-		if(currentArray == null) {
-			currentArray = new CheckingAccount[0];
-			
-			newCheckingAccountArray[0] = newAccount;
-			
-			CheckingAccount[] newCheckingAccountArray = newAccount;
+		CheckingAccount[] currentArray = getCheckingAccounts();
+		if (openingBalance < 250000) {
+			if (currentArray == null) {
+				// currentArray = new CheckingAccount[0];
+				// newCheckingAccountArray[0] = newAccount;
+				CheckingAccount[] newCheckingAccountArray = new CheckingAccount[1];
+				newCheckingAccountArray[0] = newAccount;
+				this.checkingAccounts = newCheckingAccountArray;
+			} else {
+
+				double sum = getCheckingBalance();
+
+				if (sum < 250000) {
+
+					CheckingAccount[] newCheckingAccountArray = new CheckingAccount[currentArray.length + 1];
+
+					for (int i = 0; i < currentArray.length; i++) {
+						newCheckingAccountArray[i] = currentArray[i];
+					}
+					newCheckingAccountArray[newCheckingAccountArray.length - 1] = newAccount;
+					this.checkingAccounts = newCheckingAccountArray;
+				}
+				return newAccount;
+			}
+			return newAccount;
+		} else {
+			return newAccount;
 		}
-		
-		CheckingAccount[] currentArray = getCheckingAccount();
-		
-		
-		
-		int currentArrayLength = 0;
-		
-		
-		
-		
-		
-		
-		for(int i = 0; i < currentArray.length; i ++) {
-			newCheckingAccountArray[i] = currentArray[i];
-		}
-		
-		
-		this.checkingAccounts = newCheckingAccountArray;
-		
-		
-		return newAccount;
+
 	}
-	
-	public double getCheckingBalance() {
-		CheckingAccount[] currentCheckingAccount = getCheckingAccount();
-		double checkingBalance = 0;
-		
-		for(int i = 0; i < currentCheckingAccount.length; i++) {
-			checkingBalance = checkingBalance + currentCheckingAccount[i].getBalance();
+
+	public CheckingAccount addCheckingAccount(CheckingAccount checkingObj) {
+		CheckingAccount[] currentArray = getCheckingAccounts();
+		double sum = getCheckingBalance() + getSavingsBalance();
+		if (currentArray == null) {
+			if(sum < 250000) {
+				CheckingAccount[] newCheckingAccountArray = new CheckingAccount[1];
+				newCheckingAccountArray[0] = checkingObj;
+				this.checkingAccounts = newCheckingAccountArray;
+			}
+		} 
+		else if ((sum + checkingObj.getBalance()) < 250000) {
+			CheckingAccount[] newCheckingAccountArray = new CheckingAccount[currentArray.length + 1];
+
+			for (int i = 0; i < currentArray.length; i++) {
+				newCheckingAccountArray[i] = currentArray[i];
+			}
+			newCheckingAccountArray[newCheckingAccountArray.length - 1] = checkingObj;
+			this.checkingAccounts = newCheckingAccountArray;
 		}
-		
+
+		return checkingObj;
+	}
+
+	public double getCheckingBalance() {
+		CheckingAccount[] currentCheckingAccount = getCheckingAccounts();
+		double checkingBalance = 0;
+		if (currentCheckingAccount != null) {
+			for (int i = 0; i < currentCheckingAccount.length; i++) {
+				checkingBalance = checkingBalance + currentCheckingAccount[i].getBalance();
+			}
+		}
+
 		return checkingBalance;
 	}
-	
+
 	public double getSavingsBalance() {
-		SavingsAccount[] currentSavingsAccount = getSavingsAccount();
+		SavingsAccount[] currentSavingsAccount = getSavingsAccounts();
 		double savingsBalance = 0;
-		
-		for(int i = 0; i < currentSavingsAccount.length; i++) {
-			savingsBalance = savingsBalance + currentSavingsAccount[i].getBalance();
+		if(currentSavingsAccount != null) {
+			for (int i = 0; i < currentSavingsAccount.length; i++) {
+				savingsBalance = savingsBalance + currentSavingsAccount[i].getBalance();
+			}
 		}
-		
+
 		return savingsBalance;
 	}
+
 	//
 	// Accessors and mutators
 	//
@@ -160,7 +211,7 @@ public class AccountHolder {
 		this.ssn = ssn;
 	}
 
-	public CheckingAccount[] getCheckingAccount() {
+	public CheckingAccount[] getCheckingAccounts() {
 		return checkingAccounts;
 	}
 
@@ -168,7 +219,7 @@ public class AccountHolder {
 		this.checkingAccounts = checkingAccount;
 	}
 
-	public SavingsAccount[] getSavingsAccount() {
+	public SavingsAccount[] getSavingsAccounts() {
 		return savingsAccounts;
 	}
 
@@ -176,16 +227,59 @@ public class AccountHolder {
 		this.savingsAccounts = savingsAccount;
 	}
 
-	public CDAccount[] getCdAccount() {
+	public CDAccount[] getCDAccounts() {
+		
+		return cdAccounts;
+	}
+
+	public CDAccount addCDAccount(CDAccount cdAccount) {
+		CDAccount[] currentArray = getCDAccounts();
+		if(currentArray== null) {
+			CDAccount[] newArray = new CDAccount[1];
+			newArray[0] = cdAccount;
+			this.cdAccounts = newArray;
+		}
+		else {
+			CDAccount[] newArray = new CDAccount[currentArray.length+1];
+			for(int i = 0; i < currentArray.length; i++) {
+				newArray[i] = currentArray[i];
+			}
+			this.cdAccounts = newArray;
+		}
 		return cdAccount;
 	}
-
-	public void setCdAccount(CDAccount[] cdAccount) {
-		this.cdAccount = cdAccount;
+	
+	public CDAccount addCDAccount(CDOffering cdOfferObj, double balance) {
+		CDAccount cd = new CDAccount(cdOfferObj, balance);
+		CDAccount[] currentArray = getCDAccounts();
+		if(currentArray== null) {
+			CDAccount[] newArray = new CDAccount[1];
+			newArray[0] = cd;
+			this.cdAccounts = newArray;
+		}
+		else {
+			
+		}
+		
+		return cd;
 	}
-
+	public double getCDBalance() {
+		CDAccount[] currentArray = getCDAccounts();
+		double sum = 0;
+		if(currentArray != null) {
+			for(int i = 0; i < currentArray.length; i++) {
+				sum += currentArray[i].getBalance();
+			}
+		}
+		return sum;
+	}
+	public double getCombinedBalance() {
+		
+		return getCheckingBalance() + getSavingsBalance() + getCDBalance();
+	}
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 * 
 	 * returns the state of the object as a string.
@@ -194,32 +288,30 @@ public class AccountHolder {
 	public String toString() {
 		return generateStringForToString();
 	}
-	
+
 	/*
 	 * returns a string to be used in the toString method.
 	 */
 	private String generateStringForToString() {
 		StringBuilder str = new StringBuilder();
-		
+
 		// append the name
-		str.append("Name: " + getFirstName() + " " + 
-					getMiddleName() + " " + 
-					getLastName() + "\n");
-		
+		str.append("Name: " + getFirstName() + " " + getMiddleName() + " " + getLastName() + "\n");
+
 		// append social security number
 		str.append("SSN: " + getSSN() + "\n");
-		
+
 		// append checking account balance
 		// append checking account interest rate
 		// append checking account balance in 3 years
-		str.append(getCheckingAccount().toString());
-		
+		str.append(getCheckingAccounts().toString());
+
 		// append savings account balance
 		// append savings account interest rate
 		// append the savings account balance in 3 years
-		str.append(getSavingsAccount().toString());
-		
+		str.append(getSavingsAccounts().toString());
+
 		// return the StringBuilder object as a string.
 		return str.toString();
-	}	
+	}
 }

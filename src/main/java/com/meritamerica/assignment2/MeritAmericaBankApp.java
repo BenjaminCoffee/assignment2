@@ -7,8 +7,12 @@ public class MeritAmericaBankApp {
 		AccountHolder accountHolder = new AccountHolder("Sam", "John", "Houston", "633378899");
 
 		accountHolder.addCheckingAccount(1000);
+		accountHolder.addCheckingAccount(5000);
+
+		accountHolder.addSavingsAccount(10000);
 		accountHolder.addSavingsAccount(10000);
 
+		
 		// assertEquals("Sam", accountHolder.getFirstName());
 		// assertEquals("John", accountHolder.getMiddleName());
 		// assertEquals("Houston", accountHolder.getLastName());

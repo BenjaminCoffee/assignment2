@@ -89,7 +89,7 @@ public class SolutionTest {
         assertEquals(1000, accountHolder.getCheckingBalance(),0);    
         assertEquals(10000, accountHolder.getSavingsBalance(),0);         
     }
-    /*
+    
     @Test    
     public void testAccountHolderBalanceNoMoreThan25000() {
 
@@ -124,9 +124,9 @@ public class SolutionTest {
     	assertThat(Arrays.asList(accountHolder.getSavingsAccounts()), not(hasItem(savingsAccount4)));    	
     	
     }
-    */
     
-    /*
+    
+    
     @Test    
     public void testAdCDAccountToAccountHolder() {
     	CDOffering cdOffering = new CDOffering(1,1.8/100);
@@ -142,10 +142,10 @@ public class SolutionTest {
         assertEquals(5000, accountHolder.getCDAccounts()[0].getBalance(),0);    	
     	
     }
-    */
     
     
-    /*
+    
+    
     @Test    
     public void tesAddAccountHolderToMeritBank() {
     	
@@ -162,7 +162,7 @@ public class SolutionTest {
         assertEquals(1000, MeritBank.getAccountHolders()[0].getCheckingBalance(),0);    
         assertEquals(10000, MeritBank.getAccountHolders()[0].getSavingsBalance(),0);     	  	
     }
-    */
+    
     
     @Test    
     public void tesCDClearingByMeritBank() {
@@ -178,7 +178,7 @@ public class SolutionTest {
     	assertNull(MeritBank.getCDOfferings());
      }    
 
-    /*
+    
     @Test    
     public void tesMeritBankAccountHoldersTotalBalance() {
     	
@@ -218,7 +218,7 @@ public class SolutionTest {
         assertEquals(11000, accountHolder3.getCombinedBalance(),0);         	    	    	
     	
      }    
-     */
+     
 
     
 }
