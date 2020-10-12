@@ -9,8 +9,8 @@ public class BankAccount {
 	private double balance;
 	private long accountNumber;
 	
-	public static long currentAccountNumber = 10000000000L;
-	public static ArrayList<Long> usedAccountNumbers = new ArrayList<>();
+	private static long currentAccountNumber = 10000000000L;
+	private static ArrayList<Long> usedAccountNumbers = new ArrayList<>();
 
 	public BankAccount() {
 		assignUniqueAccountNumToThisAccount();
@@ -178,6 +178,10 @@ public class BankAccount {
 
 	public long getAccountNumber() {
 		return accountNumber;
+	}
+	
+	public static long getCurrentAccountNumber() {
+		return currentAccountNumber;
 	}
 
 	/*

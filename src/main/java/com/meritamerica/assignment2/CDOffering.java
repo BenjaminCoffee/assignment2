@@ -8,12 +8,12 @@ public class CDOffering {
 	public CDOffering()	{
 		
 	}
+	
 	public CDOffering(int term, double interestRate) {
 		this.term = term;
 		this.interestRate = interestRate;
 	}
 	
-
 	public int getTerm() {
 		return term;
 	}

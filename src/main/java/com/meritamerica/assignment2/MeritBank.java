@@ -1,7 +1,5 @@
 package com.meritamerica.assignment2;
 
-import java.util.Arrays;
-import java.util.Random;
 
 public class MeritBank {
 
@@ -9,9 +7,24 @@ public class MeritBank {
 	private static CDOffering[] cdOfferings;
 
 	public static void addAccountHolder(AccountHolder accountHolder) {
-		AccountHolder[] newArray = new AccountHolder[1];
-		newArray[0] = accountHolder;
-		accountHolders = newArray;
+		// if the accountHolders array has no accounts in it, we initialize it
+		// with a new array containing one index and add accountHolder to the index.
+		if (accountHolders == null) {
+			AccountHolder[] newArray = new AccountHolder[1];
+			newArray[0] = accountHolder;
+			accountHolders = newArray;
+
+		} else {
+			// create a new array with the contents of old array and new accountHolder
+			AccountHolder[] oldArray = getAccountHolders();
+			AccountHolder[] newArray = new AccountHolder[oldArray.length + 1];
+
+			for (int i = 0; i < oldArray.length; i++) {
+				newArray[i] = oldArray[i];
+			}
+
+			accountHolders = newArray;
+		}
 	}
 
 	public static AccountHolder[] getAccountHolders() {
@@ -24,50 +37,75 @@ public class MeritBank {
 	}
 
 	public static CDOffering getBestCDOffering(double depositAmount) {
-		CDOffering offering = new CDOffering();
+		CDOffering[] currentOfferings = getCDOfferings();
+		CDOffering bestCDOffering = null;
+		double highestYield = 0;
 
-		return offering;
+		for (int i = 0; i < currentOfferings.length; i++) {
+			double yield = futureValue(depositAmount, currentOfferings[i].getInterestRate(),
+					currentOfferings[i].getTerm());
+
+			if (yield > highestYield) {
+				highestYield = yield;
+				bestCDOffering = currentOfferings[i];
+			}
+		}
+
+		return bestCDOffering;
 	}
 
 	public static CDOffering getSecondBestCDOffering(double depositAmount) {
-		CDOffering offering = new CDOffering();
+		CDOffering[] currentOfferings = getCDOfferings();
 
-		return offering;
+		CDOffering bestCDOffering = getBestCDOffering(depositAmount);
+		CDOffering secondBestCDOffering = null;
+
+		double highestYield = futureValue(depositAmount, bestCDOffering.getInterestRate(), bestCDOffering.getTerm());
+
+		double secondHighestYield = 0;
+
+		for (int i = 0; i < currentOfferings.length; i++) {
+			double yield = futureValue(depositAmount, currentOfferings[i].getInterestRate(),
+					currentOfferings[i].getTerm());
+
+			if (yield != highestYield && yield > secondHighestYield) {
+				secondHighestYield = yield;
+				secondBestCDOffering = currentOfferings[i];
+			}
+		}
+
+		return secondBestCDOffering;
 	}
 
 	public static void clearCDOfferings() {
-		if (getCDOfferings() != null) {
-			for (int i = 0; i < cdOfferings.length; i++) {
-				cdOfferings[i] = new CDOffering();
-			}
-		}
+		cdOfferings = null;
 	}
 
-	public static void setCDOfferings(CDOffering[] offerings) {
-		cdOfferings = new CDOffering[5];
-		cdOfferings[0] = new CDOffering(1, 1.8 / 100);
-		cdOfferings[1] = new CDOffering(2, 1.9 / 100);
-		cdOfferings[2] = new CDOffering(3, 2.0 / 100);
-		cdOfferings[3] = new CDOffering(5, 2.5 / 100);
-		cdOfferings[4] = new CDOffering(10, 2.2 / 100);
+	public static void setCDOfferings(CDOffering[] newCDOfferings) {
+		cdOfferings = newCDOfferings;
 	}
 
-	static long getNextAccountNumber() {
-		long x = 0;
-
-		return x;
+	public static long getNextAccountNumber() {
+		long nextAccountNumber = BankAccount.getCurrentAccountNumber() + 1;
+		return nextAccountNumber;
 	}
 
 	public static double totalBalances() {
-		double totalBalance = 0;
-
-		return totalBalance;
+		double totalBalancesOfAccountHolders = 0;
+		if (accountHolders == null) {
+			return totalBalancesOfAccountHolders;
+		} else {
+			for (int i = 0; i < accountHolders.length; i++) {
+				totalBalancesOfAccountHolders = 
+						totalBalancesOfAccountHolders + accountHolders[i].getCombinedBalance();
+			}
+			return totalBalancesOfAccountHolders;
+		}
 	}
 
 	public static double futureValue(double presentValue, double interestRate, int term) {
-		double something = 0;
 
-		return something;
+		return presentValue * (Math.pow(1 + interestRate, term));
 	}
 
 }
