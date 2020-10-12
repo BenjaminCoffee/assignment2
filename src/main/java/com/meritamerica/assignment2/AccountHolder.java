@@ -24,9 +24,9 @@ public class AccountHolder {
 		this.lastName = "";
 		this.ssn = "";
 
-		this.checkingAccounts = new CheckingAccount[0];
-		this.savingsAccounts = new SavingsAccount[0];
-		this.cdAccounts = new CDAccount[0];
+//		this.checkingAccounts = new CheckingAccount[0];
+//		this.savingsAccounts = new SavingsAccount[0];
+//		this.cdAccounts = new CDAccount[0];
 	}
 
 	public AccountHolder(String firstName, String middleName, String lastName, String ssn) {
@@ -45,7 +45,7 @@ public class AccountHolder {
 			SavingsAccount[] newSavingsAccountArray = new SavingsAccount[1];
 			newSavingsAccountArray[0] = newAccount;
 			this.savingsAccounts = newSavingsAccountArray;
-		} else if ((getSavingsBalance() + openingBalance) < 250000) {
+		} else if ((getSavingsBalance()) < 250000) {
 			SavingsAccount[] newSavingsAccountArray = new SavingsAccount[currentArray.length + 1];
 
 			for (int i = 0; i < currentArray.length; i++) {
@@ -62,9 +62,9 @@ public class AccountHolder {
 
 	public SavingsAccount addSavingsAccount(SavingsAccount savingsObj) {
 		SavingsAccount[] currentArray = getSavingsAccounts();
-		double sum = getSavingsBalance() + getCheckingBalance();
+		double sum = getSavingsBalance() + getCheckingBalance() + savingsObj.getBalance();
 		if (currentArray == null) {
-			if (sum < 250000) {
+			if (sum <= 250000) {
 				SavingsAccount[] newSavingsAccountArray = new SavingsAccount[1];
 				newSavingsAccountArray[0] = savingsObj;
 				this.savingsAccounts = newSavingsAccountArray;
@@ -72,7 +72,7 @@ public class AccountHolder {
 				System.out
 						.println("Your combined savings and checking account balances" + " must be less than 250,000");
 			}
-		} else if ((sum + savingsObj.getBalance()) < 250000) {
+		} else if ((sum) <= 250000) {
 			SavingsAccount[] newSavingsAccountArray = new SavingsAccount[currentArray.length + 1];
 
 			for (int i = 0; i < currentArray.length; i++) {
@@ -95,47 +95,56 @@ public class AccountHolder {
 	 */
 	public CheckingAccount addCheckingAccount(double openingBalance) {
 
+		double sum = getCheckingBalance() + getSavingsBalance();
 		CheckingAccount newAccount = new CheckingAccount(openingBalance);
 		CheckingAccount[] currentArray = getCheckingAccounts();
 
-		if (openingBalance < 250000) {
+		if (sum > 250000) {
 			if (currentArray == null) {
 				CheckingAccount[] newCheckingAccountArray = new CheckingAccount[1];
 				newCheckingAccountArray[0] = newAccount;
 				this.checkingAccounts = newCheckingAccountArray;
-			} else {
+			} 
+		} 
+		else if (sum < 250000){
 
-				double sum = getCheckingBalance();
+			sum = getCheckingBalance() + getSavingsBalance();
 
-				if (sum < 250000) {
+			if (currentArray == null) {
+				CheckingAccount[] newCheckingAccountArray = new CheckingAccount[1];
+				newCheckingAccountArray[0] = newAccount;
+				this.checkingAccounts = newCheckingAccountArray;
+			} 
+			else if (sum < 250000) {
 
-					CheckingAccount[] newCheckingAccountArray = new CheckingAccount[currentArray.length + 1];
+				CheckingAccount[] newCheckingAccountArray = new CheckingAccount[currentArray.length + 1];
 
-					for (int i = 0; i < currentArray.length; i++) {
-						newCheckingAccountArray[i] = currentArray[i];
-					}
-					newCheckingAccountArray[newCheckingAccountArray.length - 1] = newAccount;
-					this.checkingAccounts = newCheckingAccountArray;
-				} else {
-					System.out.println(
-							"Your combined savings and checking account balances" + " must be less than 250,000");
+				for (int i = 0; i < currentArray.length; i++) {
+					newCheckingAccountArray[i] = currentArray[i];
 				}
-				return newAccount;
+				newCheckingAccountArray[newCheckingAccountArray.length - 1] = newAccount;
+				this.checkingAccounts = newCheckingAccountArray;
+			} 
+			else {
+				System.out.println(
+						"Your combined savings and checking account balances" + " must be less than 250,000");
 			}
 			return newAccount;
-		} else {
+		}
+		else 
+		{
 			System.out.println("Your combined savings and checking account balances" + " must be less than 250,000");
 			return newAccount;
 		}
-
+		return newAccount;
 	}
 
 	public CheckingAccount addCheckingAccount(CheckingAccount checkingObj) {
 		CheckingAccount[] currentArray = getCheckingAccounts();
-		double sum = getCheckingBalance() + getSavingsBalance();
+		double sum = getCheckingBalance() + getSavingsBalance() + checkingObj.getBalance();
 
 		if (currentArray == null) {
-			if (sum < 250000) {
+			if (sum <= 250000) {
 				CheckingAccount[] newCheckingAccountArray = new CheckingAccount[1];
 				newCheckingAccountArray[0] = checkingObj;
 				this.checkingAccounts = newCheckingAccountArray;
@@ -143,7 +152,7 @@ public class AccountHolder {
 				System.out.println(
 						"The balances from your savings and checking " + "accounts must total less than 250,000.");
 			}
-		} else if ((sum + checkingObj.getBalance()) < 250000) {
+		} else if (sum <= 250000) {
 			CheckingAccount[] newCheckingAccountArray = new CheckingAccount[currentArray.length + 1];
 
 			for (int i = 0; i < currentArray.length; i++) {
@@ -255,28 +264,33 @@ public class AccountHolder {
 	}
 
 	public CDAccount addCDAccount(CDOffering cdOfferObj, double balance) {
-		CDAccount cd = new CDAccount(cdOfferObj, balance);
-		CDAccount[] currentArray = getCDAccounts();
-		if (currentArray == null) {
-			CDAccount[] newArray = new CDAccount[1];
-			newArray[0] = cd;
-			this.cdAccounts = newArray;
-		} else {
+		//CDAccount cd = new CDAccount();
+		if(cdOfferObj != null) {
+			CDAccount cd = new CDAccount(cdOfferObj, balance);
+			CDAccount[] currentArray = getCDAccounts();
+			if (currentArray == null) {
+				CDAccount[] newArray = new CDAccount[1];
+				newArray[0] = cd;
+				this.cdAccounts = newArray;
+			} else {
 
-			CDAccount[] newArray = new CDAccount[currentArray.length + 1];
-			for (int i = 0; i < currentArray.length; i++) {
-				newArray[i] = currentArray[i];
+				CDAccount[] newArray = new CDAccount[currentArray.length + 1];
+				for (int i = 0; i < currentArray.length; i++) {
+					newArray[i] = currentArray[i];
+				}
+				this.cdAccounts = newArray;
+
 			}
-			this.cdAccounts = newArray;
+			return cd;
 
 		}
-
-		return cd;
+		
+		return null;
 	}
 
 	public double getCDBalance() {
 		CDAccount[] currentArray = getCDAccounts();
-		System.out.println(currentArray.length);
+		//System.out.println(currentArray.length);
 		double sum = 0;
 		if (currentArray != null) {
 			for (int i = 0; i < currentArray.length; i++) {

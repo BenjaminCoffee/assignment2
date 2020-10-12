@@ -8,7 +8,7 @@ public class CDAccount extends BankAccount {
 	private CDOffering offering;
 	private double balance;
 	private Date startDate;
-	
+
 	public CDAccount(CDOffering offering, double balance) {
 		this.startDate = new Date();
 		

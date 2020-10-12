@@ -41,13 +41,15 @@ public class MeritBank {
 		CDOffering bestCDOffering = null;
 		double highestYield = 0;
 
-		for (int i = 0; i < currentOfferings.length; i++) {
-			double yield = futureValue(depositAmount, currentOfferings[i].getInterestRate(),
-					currentOfferings[i].getTerm());
+		if(currentOfferings != null) {
+			for (int i = 0; i < currentOfferings.length; i++) {
+				double yield = futureValue(depositAmount, currentOfferings[i].getInterestRate(),
+						currentOfferings[i].getTerm());
 
-			if (yield > highestYield) {
-				highestYield = yield;
-				bestCDOffering = currentOfferings[i];
+				if (yield > highestYield) {
+					highestYield = yield;
+					bestCDOffering = currentOfferings[i];
+				}
 			}
 		}
 
@@ -60,17 +62,19 @@ public class MeritBank {
 		CDOffering bestCDOffering = getBestCDOffering(depositAmount);
 		CDOffering secondBestCDOffering = null;
 
-		double highestYield = futureValue(depositAmount, bestCDOffering.getInterestRate(), bestCDOffering.getTerm());
+		if(bestCDOffering != null) {
+			double highestYield = futureValue(depositAmount, bestCDOffering.getInterestRate(), bestCDOffering.getTerm());
 
-		double secondHighestYield = 0;
+			double secondHighestYield = 0;
 
-		for (int i = 0; i < currentOfferings.length; i++) {
-			double yield = futureValue(depositAmount, currentOfferings[i].getInterestRate(),
-					currentOfferings[i].getTerm());
+			for (int i = 0; i < currentOfferings.length; i++) {
+				double yield = futureValue(depositAmount, currentOfferings[i].getInterestRate(),
+						currentOfferings[i].getTerm());
 
-			if (yield != highestYield && yield > secondHighestYield) {
-				secondHighestYield = yield;
-				secondBestCDOffering = currentOfferings[i];
+				if (yield != highestYield && yield > secondHighestYield) {
+					secondHighestYield = yield;
+					secondBestCDOffering = currentOfferings[i];
+				}
 			}
 		}
 
@@ -96,8 +100,10 @@ public class MeritBank {
 			return totalBalancesOfAccountHolders;
 		} else {
 			for (int i = 0; i < accountHolders.length; i++) {
-				totalBalancesOfAccountHolders = 
-						totalBalancesOfAccountHolders + accountHolders[i].getCombinedBalance();
+				if(accountHolders[i] != null) {
+					totalBalancesOfAccountHolders = 
+							totalBalancesOfAccountHolders + accountHolders[i].getCombinedBalance();
+				}
 			}
 			return totalBalancesOfAccountHolders;
 		}

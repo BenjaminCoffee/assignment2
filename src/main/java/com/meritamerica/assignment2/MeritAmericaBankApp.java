@@ -66,7 +66,36 @@ public class MeritAmericaBankApp {
 		
 		// this is throwing an error
 		ah1.getCDBalance();
+		//9
+		MeritBank.addAccountHolder(ah1);
+		//10
+		AccountHolder ah2 = new AccountHolder();
+		//11
+		ah2.addCheckingAccount(1000);
+		//12
+		CDOffering secondBestCDOffering = MeritBank.getSecondBestCDOffering(100);
+		ah2.addCDAccount(secondBestCDOffering, 100);
+		//13
+		MeritBank.addAccountHolder(ah2);
+		//14
+		MeritBank.clearCDOfferings();
+		//15
+		AccountHolder ah3 = new AccountHolder();
+		//16
+		secondBestCDOffering = MeritBank.getSecondBestCDOffering(100);
+		ah3.addCDAccount(secondBestCDOffering, 100);
+		//17
+		//HAVE TO CONFIRM STEP 16 DID NOT ADD THE CD ACCOUNT
 		
+		//18
+		ah3.addCheckingAccount(1000);
+		ah3.addSavingsAccount(10000);
+		//19
+		MeritBank.addAccountHolder(ah3);
+		//20
+		MeritBank.totalBalances();
+		
+
 		
 		
 		
