@@ -21,7 +21,9 @@ public class SavingsAccount extends BankAccount {
 		super(openingBalance, interestRate);
 	}
 	
-	
+	public SavingsAccount(long accountNumber, double openingBalance, double interestRate) {
+		super(accountNumber, openingBalance, interestRate);
+	}
 	
 	
 }

@@ -15,12 +15,16 @@ public class CheckingAccount extends BankAccount {
 		super();
 	}
 	
+	public CheckingAccount(double openingBalance) {
+		super(openingBalance);
+	}
+	
 	public CheckingAccount(double openingBalance, double interestRate) {
 		super(openingBalance, interestRate);
 	}
 	
-	public CheckingAccount(double openingBalance) {
-		super(openingBalance);
+	public CheckingAccount(long accountNumber, double openingBalance, double interestRate) {
+		super(accountNumber, openingBalance, interestRate);
 	}
 	
 }
